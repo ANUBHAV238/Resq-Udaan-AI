@@ -1,0 +1,25 @@
+drone_id: drone1
+mavros_namespace: /drone1/mavros
+sector_index: 0
+
+camera:
+  enabled: true
+  source: 0                 # int, file path, or a "gst-launch"-style GStreamer pipeline string
+  width: 1280
+  height: 720
+  hfov_deg: 90.0
+  tilt_forward_deg: 0.0     # 0 = nadir
+  ref_point: center         # center | bottom
+  ground_elevation_rel_m: 0.0
+  camera_matrix: null       # [[fx,0,cx],[0,fy,cy],[0,0,1]] at calib_size
+  dist_coeffs: null
+  calib_size: null          # [w, h]
+
+payload_release:
+  hold_s: 1.5
+  between_s: 0.5
+  servos:                   # one servo channel per box slot (set to your wiring)
+    - {channel: 9,  open_pwm: 1900, closed_pwm: 1100}
+    - {channel: 10, open_pwm: 1900, closed_pwm: 1100}
+    - {channel: 11, open_pwm: 1900, closed_pwm: 1100}
+    - {channel: 12, open_pwm: 1900, closed_pwm: 1100}

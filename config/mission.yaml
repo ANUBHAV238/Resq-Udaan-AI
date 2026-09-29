@@ -1,0 +1,91 @@
+drones: [drone1, drone2, drone3]
+mission_area_kml: mission_area.kml
+
+mqtt:
+  host: 127.0.0.1
+  port: 1883
+  keepalive: 15
+  username: null
+  password: null
+  tls: false
+  reconnect_min_s: 1
+  reconnect_max_s: 15
+  max_queued: 500
+  stale_after_s:
+    status: 15
+    telemetry: 5
+    detection: 60
+    delivery: 120
+    coordination: 30
+    mission: 60
+
+coverage:
+  TRACK_SPACING_M: 10.0
+  WAYPOINT_SPACING_M: 5.0
+  boundary_margin_m: 2.0
+  heading_deg: null          # null = auto (fewest tracks)
+  altitude_m: 25.0
+
+payload:
+  box_count: 4
+  box_weight_kg: 2.5
+
+flight:
+  takeoff_altitude_m: 25.0
+  auto_takeoff: false        # false = pilot arms/takes off, software waits, then switches to AUTO
+  takeoff_wait_s: 120
+  modes: {guided: GUIDED, auto: AUTO, rtl: RTL, hold: LOITER}
+
+mavros:
+  stale_after_s: 3.0
+  service_timeout_s: 3.0
+  setpoint_hz: 5.0
+
+operator:
+  token: "CHANGE_ME_OPERATOR_TOKEN"   # empty token => every operator command is rejected
+
+delivery:
+  altitude_m: 8.0
+  arrival_radius_m: 3.0
+  arrival_alt_tol_m: 1.5
+  arrival_speed_mps: 1.0
+  approval_timeout_s: 120
+  release_confirm_timeout_s: 180
+  max_transit_s: 300
+  terminal_hold_s: 5
+  min_battery_pct: 30
+  battery_reserve_pct: 15
+  drain_pct_per_km: 6.0
+  boxes_by_category: {HIGH: 2, MEDIUM: 1, LOW: 1}
+  proposal_timeout_s: 30
+  retry_cooldown_s: 60
+  target_detected_hold_s: 5
+  republish_s: 3.0
+
+allocation:
+  peer_timeout_s: 6.0
+  max_range_m: 3000.0
+  weights: {distance: 0.45, battery: 0.2, boxes: 0.1, workload: 0.25}
+  priority_distance_boost: 1.0
+
+fusion:
+  merge_radius_m: 4.0
+
+priority:
+  model_path: models/priority
+  thresholds: {high: 0.75, medium: 0.4}
+  feature_names: [confidence, bbox_area_ratio, bbox_aspect, altitude_m, distance_to_drone_m]
+
+detector:
+  backend: onnx              # onnx | hog
+  model_path: models/detector/yolov8n.onnx
+  input_size: 640
+  conf_threshold: 0.4
+  nms_threshold: 0.45
+  class_map: {0: person}
+  interval_s: 0.3
+  min_altitude_m: 5.0
+  max_tilt_deg: 25.0
+
+status_hz: 2.0
+telemetry_hz: 5.0
